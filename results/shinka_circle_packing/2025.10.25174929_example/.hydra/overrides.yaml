@@ -1,0 +1,6 @@
+- variant@_global_=circle_packing_example
+- database@_global_=island_small
+- evolution@_global_=small_budget
+- cluster@_global_=local
+- evo_config.num_generations=5
+- evo_config.llm_models=[azure-gpt-5]

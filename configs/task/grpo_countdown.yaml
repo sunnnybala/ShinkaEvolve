@@ -1,0 +1,27 @@
+evaluate_function:
+  _target_: examples.grpo_countdown.evaluate.main
+  program_path: ???
+  results_dir: ???
+
+distributed_job_config:
+  _target_: shinka.launch.SlurmCondaJobConfig
+  modules: []
+  eval_program_path: "examples/grpo_countdown/evaluate.py"
+  conda_env: "shinka"
+  time: "00:15:00"
+  cpus: 2
+  gpus: 0
+  mem: "8G"
+
+evo_config:
+  task_sys_msg: |
+    You are optimizing a Python program that evaluates a GRPO-based Countdown math solver.
+    Only modify the EVOLVE-BLOCK in the program to improve accuracy at 512 max tokens.
+    Preserve correctness checks and do not alter evaluation integrity.
+  language: "python"
+  init_program_path: "examples/grpo_countdown/initial.py"
+  job_type: "local"
+
+exp_name: "shinka_grpo_countdown"
+
+

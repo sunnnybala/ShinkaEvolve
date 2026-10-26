@@ -1,0 +1,58 @@
+{
+  "unprocessed_programs": [
+    {
+      "id": "947321cd-66ea-4026-bc45-a2aa2ad6dfdf",
+      "code": "# EVOLVE-BLOCK-START\n\"\"\"Constructor-based circle packing for n=26 circles\"\"\"\n\nimport numpy as np\n\n\ndef construct_packing():\n    \"\"\"\n    Construct a specific arrangement of 26 circles in a unit square\n    that attempts to maximize the sum of their radii.\n\n    Returns:\n        Tuple of (centers, radii, sum_of_radii)\n        centers: np.array of shape (26, 2) with (x, y) coordinates\n        radii: np.array of shape (26) with radius of each circle\n        sum_of_radii: Sum of all radii\n    \"\"\"\n    # Initialize arrays for 26 circles\n    n = 26\n    centers = np.zeros((n, 2))\n\n    # Place circles in a structured pattern\n    # This is a simple pattern - evolution will improve this\n\n    # First, place a large circle in the center\n    centers[0] = [0.5, 0.5]\n\n    # Place 8 circles around it in a ring\n    for i in range(8):\n        angle = 2 * np.pi * i / 8\n        centers[i + 1] = [0.5 + 0.3 * np.cos(angle), 0.5 + 0.3 * np.sin(angle)]\n\n    # Place 16 more circles in an outer ring\n    for i in range(16):\n        angle = 2 * np.pi * i / 16\n        centers[i + 9] = [0.5 + 0.7 * np.cos(angle), 0.5 + 0.7 * np.sin(angle)]\n\n    # Additional positioning adjustment to make sure all circles\n    # are inside the square and don't overlap\n    # Clip to ensure everything is inside the unit square\n    centers = np.clip(centers, 0.01, 0.99)\n\n    # Compute maximum valid radii for this configuration\n    radii = compute_max_radii(centers)\n    return centers, radii\n\n\ndef compute_max_radii(centers):\n    \"\"\"\n    Compute the maximum possible radii for each circle position\n    such that they don't overlap and stay within the unit square.\n\n    Args:\n        centers: np.array of shape (n, 2) with (x, y) coordinates\n\n    Returns:\n        np.array of shape (n) with radius of each circle\n    \"\"\"\n    n = centers.shape[0]\n    radii = np.ones(n)\n\n    # First, limit by distance to square borders\n    for i in range(n):\n        x, y = centers[i]\n        # Distance to borders\n        radii[i] = min(x, y, 1 - x, 1 - y)\n\n    # Then, limit by distance to other circles\n    # Each pair of circles with centers at distance d can have\n    # sum of radii at most d to avoid overlap\n    for i in range(n):\n        for j in range(i + 1, n):\n            dist = np.sqrt(np.sum((centers[i] - centers[j]) ** 2))\n\n            # If current radii would cause overlap\n            if radii[i] + radii[j] > dist:\n                # Scale both radii proportionally\n                scale = dist / (radii[i] + radii[j])\n                radii[i] *= scale\n                radii[j] *= scale\n\n    return radii\n\n\n# EVOLVE-BLOCK-END\n\n\n# This part remains fixed (not evolved)\ndef run_packing():\n    \"\"\"Run the circle packing constructor for n=26\"\"\"\n    centers, radii = construct_packing()\n    # Calculate the sum of radii\n    sum_radii = np.sum(radii)\n    return centers, radii, sum_radii\n",
+      "language": "python",
+      "parent_id": null,
+      "archive_inspiration_ids": [],
+      "top_k_inspiration_ids": [],
+      "island_idx": 0,
+      "generation": 0,
+      "timestamp": 1761393008.4394276,
+      "code_diff": null,
+      "combined_score": 0.0,
+      "public_metrics": {},
+      "private_metrics": {},
+      "text_feedback": "",
+      "correct": false,
+      "children_count": 0,
+      "complexity": 0.858,
+      "embedding": [],
+      "embedding_pca_2d": [],
+      "embedding_pca_3d": [],
+      "embedding_cluster_id": null,
+      "migration_history": [],
+      "metadata": {
+        "compute_time": 10.027821063995361,
+        "api_costs": 0.0,
+        "embed_cost": 0.0,
+        "novelty_cost": 0.0,
+        "patch_type": "init",
+        "patch_name": "initial_program",
+        "patch_description": "Initial program from file.",
+        "stdout_log": "",
+        "stderr_log": "Traceback (most recent call last):\n  File \"C:\\Users\\dhruv\\OneDrive\\Desktop\\gstar\\Group_Project\\ShinkaEvolve\\shinka\\eval_hydra.py\", line 10, in <module>\n    import omegaconf\nModuleNotFoundError: No module named 'omegaconf'\n",
+        "code_analysis_metrics": {
+          "cyclomatic_complexity": 9,
+          "average_cyclomatic_complexity": 3.0,
+          "halstead_volume": 447.4085184406181,
+          "halstead_difficulty": 4.05,
+          "halstead_effort": 1812.0044996845031,
+          "lines_of_code": 94,
+          "logical_lines_of_code": 36,
+          "comments": 21,
+          "maintainability_index": 16.95732624666698,
+          "max_nesting_depth": 4,
+          "complexity_score": 0.858
+        }
+      },
+      "in_archive": false
+    }
+  ],
+  "meta_summary": null,
+  "meta_scratch_pad": null,
+  "meta_recommendations": null,
+  "meta_recommendations_history": [],
+  "total_programs_meta_processed": 0
+}
